@@ -1,0 +1,122 @@
+--- DIAGNOSIS REPORT ---
+
+[1] HOSTS FILE CONTENT:
+﻿# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+# Added by Docker Desktop
+192.168.1.186 host.docker.internal
+192.168.1.186 gateway.docker.internal
+# To allow the same kube context to work on the host and the container:
+127.0.0.1 kubernetes.docker.internal
+# End of section
+
+
+[2] IPCONFIG /ALL:
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : DESKTOP-NMRLLPJ
+   Primary Dns Suffix  . . . . . . . : 
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+   DNS Suffix Search List. . . . . . : home
+
+Ethernet adapter Ethernet:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Realtek PCIe GbE Family Controller
+   Physical Address. . . . . . . . . : 00-D8-61-2F-DB-DD
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Conexin de rea local* 9:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter
+   Physical Address. . . . . . . . . : E2-D3-62-B4-59-98
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Conexin de rea local* 10:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter #2
+   Physical Address. . . . . . . . . : E0-D3-62-B4-59-98
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . : home
+   Description . . . . . . . . . . . : TP-Link Wireless USB Adapter
+   Physical Address. . . . . . . . . : E0-D3-62-B4-59-98
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   IPv6 Address. . . . . . . . . . . : 2a0c:5a86:9603:2f00:d3b2:c2ec:6b05:b503(Preferred) 
+   Temporary IPv6 Address. . . . . . : 2a0c:5a86:9603:2f00:59ca:9c40:283d:9e7e(Preferred) 
+   Link-local IPv6 Address . . . . . : fe80::9b5b:75e5:9ebf:cf4c%19(Preferred) 
+   IPv4 Address. . . . . . . . . . . : 192.168.1.186(Preferred) 
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Lease Obtained. . . . . . . . . . : Wednesday, February 11, 2026 10:46:53 PM
+   Lease Expires . . . . . . . . . . : Thursday, February 12, 2026 10:46:52 PM
+   Default Gateway . . . . . . . . . : fe80::6e4f:89ff:fe63:53f0%19
+                                       192.168.1.1
+   DHCP Server . . . . . . . . . . . : 192.168.1.1
+   DHCPv6 IAID . . . . . . . . . . . : 417387362
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-30-09-76-86-00-D8-61-2F-DB-DD
+   DNS Servers . . . . . . . . . . . : 2a0c:5a80:0:2::1
+                                       2a0c:5a84:0:2::1
+                                       100.90.1.1
+                                       100.100.1.1
+                                       fe80::6e4f:89ff:fe63:53f0%19
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+
+[3] SCHEDULED TASK STATUS:
+
+Folder: IronLock
+TaskName                                 Next Run Time          Status         
+======================================== ====================== ===============
+IronLockCore                             N/A                    Ready          
+
+
+[4] REGISTRY POLICIES (Chrome):
+
+
+
+[5] FIREWALL RULES (IronLock Only):
+Rule Name:                            IronLock_Block_GoogleDNS
+Rule Name:                            IronLock_Block_QUIC
+Rule Name:                            IronLock_Allow_SafeDNS
+Rule Name:                            IronLock_Allow_SafeDNS
+Rule Name:                            IronLock_Block_GoogleDNS
+
+
+[6] RUNNING PYTHON PROCESSES:
+
+Image Name                     PID Session Name        Session#    Mem Usage
+========================= ======== ================ =========== ============
+python.exe                   32076 Console                    1     16,840 K
