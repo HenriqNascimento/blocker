@@ -29,7 +29,7 @@ Você deve fazer o upload da pasta `iron_lock/backend` para o **GitHub** e conec
    | NAME | VALUE |
    |------|-------|
    | `SENDGRID_API_KEY` | `SG.PEp3...` (Sua chave completa) |
-   | `FROM_EMAIL` | `seu_email@dominio.com` (Email VERIFICADO no SendGrid) |
+   | `FROM_EMAIL` | `henriquenascimentoh@gmail.com` (Email VERIFICADO no SendGrid) |
    | `APP_SECRET` | `UmaSenhaSuperSecretaAleatoria123` (Para criptografar os links) |
 
 5. Clique em **Deploy**.

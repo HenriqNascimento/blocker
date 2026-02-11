@@ -5,7 +5,7 @@ import sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const APP_SECRET = process.env.APP_SECRET || 'fallback-secret-dont-use-in-prod';
-const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@yourdomain.com';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'henriquenascimentoh@gmail.com';
 
 export default async function handler(req, res) {
     const { token } = req.query;

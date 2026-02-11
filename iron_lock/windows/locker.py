@@ -6,7 +6,6 @@ import hmac
 import datetime
 import secrets
 import string
-import base64
 from pathlib import Path
 
 # Configuration
@@ -23,42 +22,23 @@ def ensure_dir():
 def sign_data(data_str):
     return hmac.new(SECRET_KEY, data_str.encode('utf-8'), hashlib.sha256).hexdigest()
 
-def generate_master_key():
-    chars = string.ascii_uppercase + string.digits
-    return ''.join(secrets.choice(chars) for _ in range(20))
+def hash_master_key(key):
+    return hashlib.sha256(key.encode('utf-8')).hexdigest()
 
-def simple_encrypt(key, secret):
-    # Basic XOR obfuscation sufficient for "Self-Control" against non-technical users
-    # Real encryption would use AES, but dependency management (pycryptodome) is hard here.
-    # XOR + Base64
-    repeated_secret = (secret * (len(key) // len(secret) + 1))[:len(key)]
-    xor_bytes = bytes(a ^ b for a, b in zip(key.encode(), repeated_secret))
-    return base64.b64encode(xor_bytes).decode()
-
-def simple_decrypt(enc_str, secret):
-    enc_bytes = base64.b64decode(enc_str)
-    repeated_secret = (secret * (len(enc_bytes) // len(secret) + 1))[:len(enc_bytes)]
-    xor_bytes = bytes(a ^ b for a, b in zip(enc_bytes, repeated_secret))
-    return xor_bytes.decode()
-
-def create_lock(user_email="unknown"):
+def save_lock_status(email, key_hash):
+    """Saves the lock status with Key Hash only (Key itself is discarded)"""
     ensure_dir()
     now = datetime.datetime.now()
     unlock_date = now + datetime.timedelta(days=LOCK_DURATION_DAYS)
-    
-    # Generate Key strictly for internal storage
-    master_key = generate_master_key()
-    
-    # Encrypt Key using our app secret (so user can't read it easily from JSON)
-    encrypted_key = simple_encrypt(master_key, SECRET_KEY)
     
     data = {
         "start_timestamp": now.timestamp(),
         "unlock_timestamp": unlock_date.timestamp(),
         "start_date_human": str(now),
         "unlock_date_human": str(unlock_date),
-        "user_email": user_email,
-        "encrypted_key": encrypted_key 
+        "user_email": email,
+        "key_hash": key_hash,
+        "mode": "cloud_verified"
     }
     
     data_str = json.dumps(data, sort_keys=True)
@@ -72,7 +52,6 @@ def create_lock(user_email="unknown"):
     with open(LOCK_FILE_PATH, 'w') as f:
         json.dump(final_record, f, indent=4)
     
-    # Return nothing. Key is hidden.
     return True
 
 def get_lock_status():
@@ -110,18 +89,19 @@ def get_lock_status():
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
-def reveal_key():
-    status = get_lock_status()
-    if status["status"] != "eligible_for_unlock":
-        return None
-        
+def verify_key(input_key):
     try:
         with open(LOCK_FILE_PATH, 'r') as f:
             record = json.load(f)
-        enc_key = record["data"]["encrypted_key"]
-        return simple_decrypt(enc_key, SECRET_KEY)
+        
+        saved_hash = record["data"].get("key_hash")
+        if not saved_hash:
+            return False
+            
+        input_hash = hash_master_key(input_key.strip())
+        return input_hash == saved_hash
     except:
-        return None
+        return False
 
 def unlock_system():
     """Reverses the hardening measures. Requires Admin."""
@@ -143,22 +123,23 @@ def unlock_system():
         return False
 
 if __name__ == "__main__":
-    # Test block
     status = get_lock_status()
     print(f"Current Status: {status}")
     
     if status["status"] == "eligible_for_unlock":
-        key = reveal_key()
-        if key:
-            print("\n" + "="*40)
-            print("TIME CAPSULE UNLOCKED")
-            print(f"KEY: {key}")
-            print("="*40 + "\n")
-            
-            confirm = input("Generate Unlock Token? (yes/no): ")
+        print("\n" + "="*40)
+        print("TIME LOCK EXPIRED")
+        print("Please enter the Key received via Email.")
+        print("="*40 + "\n")
+        
+        key = input("Unlock Key: ")
+        
+        if verify_key(key):
+            print("KEY VERIFIED.")
+            confirm = input("Unlock System? (yes/no): ")
             if confirm.lower() == "yes":
                 unlock_system()
         else:
-            print("Error retrieving key.")
+            print("INVALID KEY.")
     elif status["status"] == "locked":
         print("Come back later.")
